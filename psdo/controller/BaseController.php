@@ -1,15 +1,16 @@
 <?php
     namespace PSDO\Controller;
 
-    class Controller {
+    class BaseController {
         // data
         public $db = null;
         public $model = null;
+        public $test = "";
 
         // constr
         function __construct() {
-            // $this->db =
-            // $this->loadModel
+            // just debug
+            $this->test = "Hello from controller!";
         }
 
     }

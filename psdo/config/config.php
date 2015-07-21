@@ -13,6 +13,6 @@
 
     // database
     define('PSDO_CFG_DB_HOST', 'localhost');
-    define('PSDO_CFG_DB_NAME', 'psdo');
+    define('PSDO_CFG_DB_NAME', 'PSDO');
     define('PSDO_CFG_DB_USER', 'psdo3ez');
     define('PSDO_CFG_DB_PASS', 'psdo3ez');
