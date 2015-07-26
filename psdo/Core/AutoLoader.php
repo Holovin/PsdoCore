@@ -1,5 +1,5 @@
 <?php
-    namespace Core;
+    namespace PSDO\Core;
 
     class AutoLoader {
         protected $prefixes = array();
