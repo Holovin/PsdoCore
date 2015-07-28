@@ -1,14 +1,29 @@
 <?php
-    require_once "Core/Init.php";
+    require_once "PSDO/Core/Init.php";
 
+    use PSDO\Config;
     use PSDO\Controller\BaseController;
+    use PSDO\Storage\Database;
 
     $b = new BaseController();
 
     echo '<html><body>';
-    echo 'Debug: '.$b->test.'<br />';
-    echo '<a href="dev_test/db_connect_test.php">Database connection test</a><br />';
-    echo filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')."<br />";
-    echo __DIR__."<br />";
-    echo $_SERVER['DOCUMENT_ROOT']."<br />";
+    echo 'Request data:<br />';
+    var_dump($_REQUEST);
+    echo '<hr />Links:<br />';
+    echo '<a href="dev_test/db_connect_test.php">Database connection test</a><hr />';
+
+    $dbh = Database::getInstance();
+    $t = $dbh->getConnector();
+    $stmt = $t->query('SELECT * FROM test');
+
+    var_dump($stmt);
+
+    echo "<hr />";
+
+    while ($row = $stmt->fetch()) {
+        print_r($row);
+    }
+
+
     echo '</html></body>';

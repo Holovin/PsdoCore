@@ -1,0 +1,26 @@
+# Necessary to prevent problems when using a controller named "index" and having a root index.php
+Options -MultiViews
+
+# Dir view disable
+Options -Indexes
+
+RewriteEngine on
+
+# For future
+#RewriteBase /
+
+# Why not :D
+# localhost?
+RewriteCond %{HTTP_REFERER} !^$
+# www
+RewriteCond %{HTTP_REFERER} !^http://(www\.)?psdo\.by/.*$ [NC]
+RewriteRule .+\.(gif|jpg|png|js|css)$ - [L,R=404]
+
+# files
+RewriteCond %{REQUEST_FILENAME} !-f
+# dirs
+RewriteCond %{REQUEST_FILENAME} !-d
+# symlinks
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule ^(www.)?(.+)$ index.php?$2 [QSA,L]

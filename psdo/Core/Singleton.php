@@ -4,9 +4,6 @@
 
     abstract class Singleton {
 
-        /**
-         * @return Singleton
-         */
         public static function getInstance() {
             static $instance = null;
 
