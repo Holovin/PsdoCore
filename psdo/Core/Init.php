@@ -9,4 +9,4 @@
     // auto loader
     $loader = new AutoLoader();
     $loader->register();
-    $loader->addNamespace('PSDO', 'PSDO');
+    $loader->addNamespace('PSDO', $_SERVER['DOCUMENT_ROOT'].'PSDO/PSDO');

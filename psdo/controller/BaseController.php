@@ -1,16 +1,16 @@
 <?php
     namespace PSDO\Controller;
 
+    use PSDO\Storage\Database;
+
     class BaseController {
         // data
         public $db = null;
         public $model = null;
-        public $test = "";
 
         // constr
         function __construct() {
-            // just debug
-            $this->test = "Hello from controller!";
+            $this->db = Database::getInstance();
         }
 
     }

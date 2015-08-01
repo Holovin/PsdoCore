@@ -11,7 +11,7 @@
     echo 'Request data:<br />';
     var_dump($_REQUEST);
     echo '<hr />Links:<br />';
-    echo '<a href="dev_test/db_connect_test.php">Database connection test</a><hr />';
+    echo '<a href="PSDO/Tests/db_connect_test.php">Database connection test</a><hr />';
 
     $dbh = Database::getInstance();
     $t = $dbh->getConnector();
