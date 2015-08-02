@@ -23,4 +23,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # symlinks
 RewriteCond %{REQUEST_FILENAME} !-l
 
-#RewriteRule ^(www.)?(.+)$ index.php?$2 [QSA,L]
+RewriteRule ^(www.)?(.+)$ index.php?$2 [QSA,L]

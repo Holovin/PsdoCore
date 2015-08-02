@@ -18,7 +18,7 @@
                 return;
             }
 
-            if ($result->fetch()[0] !== constant('PSDO\Tests\Storage\Database::DB_CHECK_KEY')) {
+            if ($result->fetch()[0] !== $this::DB_CHECK_KEY) {
                 $this->WriteData("Error", "Incorrect check key");
                 return;
             }

@@ -1,11 +1,13 @@
 <?php
     require_once "PSDO/Core/Init.php";
 
+    use PSDO\Core\Application;
     use PSDO\Config;
     use PSDO\Controller\BaseController;
     use PSDO\Storage\Database;
 
-    $b = new BaseController();
+    $app = new Application();
+    die();
 
     echo '<html><body>';
     echo 'Request data:<br />';
