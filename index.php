@@ -17,6 +17,7 @@
 
     $dbh = Database::getInstance();
     $t = $dbh->getConnector();
+
     $stmt = $t->query('SELECT * FROM test');
 
     var_dump($stmt);

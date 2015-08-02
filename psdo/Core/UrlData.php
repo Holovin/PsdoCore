@@ -20,8 +20,8 @@
             if (count($data) > 0) {
                 $temp = preg_split("/[\/]/", $data[0], null, PREG_SPLIT_NO_EMPTY);
 
-                $this->controller = isset($temp[0]) ? $temp[0] : null;
-                $this->action = isset($temp[1]) ? $temp[1] : null;
+                $this->controller = !empty($temp[0]) ? $temp[0] : null;
+                $this->action = !empty($temp[1]) ? $temp[1] : null;
             }
 
             if (count($data) > 1) {
