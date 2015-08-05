@@ -1,6 +1,9 @@
 # Necessary to prevent problems when using a controller named "index" and having a root index.php
 Options -MultiViews
 
+# OK
+AddDefaultCharset utf-8
+
 # Dir view disable
 Options -Indexes
 
