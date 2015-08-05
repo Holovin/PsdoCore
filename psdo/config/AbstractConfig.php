@@ -4,21 +4,41 @@
     use PSDO\Core\Singleton;
 
     abstract class AbstractConfig extends Singleton {
-        public $data = null;
+        const configStoreName = 'Abstract';
 
-        protected function Load() {
+        protected $data = null;
+
+        protected function load() {
             return;
         }
 
+        protected function tryLoadCache() {
+            $temp_config = apcu_fetch("PSDO_CONFIGS_".$this::configStoreName);
+
+            if ($temp_config) {
+                $this->data = $temp_config;
+                return true;
+            }
+
+            return false;
+        }
+
+        public function removeCache() {
+            apcu_delete("PSDO_CONFIGS_".$this::configStoreName);
+        }
+
         protected function __construct() {
-            $this->Load();
+            if (!$this->tryLoadCache()) {
+                $this->load();
+                apcu_store("PSDO_CONFIGS_".$this::configStoreName, $this->data);
+            }
         }
 
-        public function getVar($name) {
-            return array_key_exists($name, $this->data) ? $this->data[$name] : null;
-        }
+        public function __call($name, $nvm) {
+            if (!isset($this->data[$name])) {
+                $this->load();
+            }
 
-        public function getAll() {
-            return $this->data;
+            return $this->data[$name];
         }
     }

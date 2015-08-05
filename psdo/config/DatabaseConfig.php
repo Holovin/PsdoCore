@@ -3,8 +3,9 @@
 
 
     class DatabaseConfig extends AbstractConfig {
+        const configStoreName = 'Database';
 
-        public function Load() {
+        protected function load() {
             $this->data['host']             = 'localhost';
             $this->data['login']            = 'psdo3ez';
             $this->data['password']         = 'psdo3ez';
@@ -13,6 +14,6 @@
 
         public function  __construct() {
             parent::__construct();
-            $this->Load();
+            $this->load();
         }
     }
