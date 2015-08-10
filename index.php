@@ -6,27 +6,18 @@
     use PSDO\Controller\BaseController;
     use PSDO\Storage\Database;
 
-    $app = new Application();
-    die();
+    use PSDO\View\Document;
+    use PSDO\View\Widget;
+    use PSDO\View\Documents\HtmlDocument;
 
-    echo '<html><body>';
-    echo 'Request data:<br />';
+    $doc = HtmlDocument::getInstance();
+
+    $doc->writeRaw('Request data:<br />');
+    ob_start();
     var_dump($_REQUEST);
-    echo '<hr />Links:<br />';
-    echo '<a href="PSDO/Tests/db_connect_test.php">Database connection test</a><hr />';
+    $doc->writeRaw(ob_get_clean());
+    $doc->writeRaw('<hr />Links:<br />');
+    $doc->writeRaw('<a href="PSDO/Tests/db_connect_test.php">Database connection test</a><hr />');
 
-    $dbh = Database::getInstance();
-    $t = $dbh->getConnector();
-
-    $stmt = $t->query('SELECT * FROM test');
-
-    var_dump($stmt);
-
-    echo "<hr />";
-
-    while ($row = $stmt->fetch()) {
-        print_r($row);
-    }
-
-
-    echo '</html></body>';
+    $doc->setTitle("PSDO!");
+    $doc->render();

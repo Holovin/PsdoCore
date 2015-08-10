@@ -1,24 +1,31 @@
 <?php
     namespace PSDO\View;
 
-    abstract class Widget {
-        protected $path = 'Widgets/';
-        protected $content = '';
+    class Widget {
+        const path = 'View/Widgets/';
 
-        public function __construct($widget, $args = array(), $autoWrite = true) {
-            if (!empty($widget) && file_exists($this->path.$widget.".php")) {
-                $this->Load($this->path.$widget.".php", $args);
+        protected $widgetName = 'Blank';
+        protected $content = null;
+        protected $data = [];
 
-                if ($autoWrite) {
-                    Document::getInstance()->write($this->content);
-                }
-            }
+        public function __construct($widgetName = 'Blank', $data = array()) {
+            $this->widgetName = $widgetName;
+            $this->data = $data;
         }
 
-        protected function Load($path, $args = array()) {
-            extract($args);
-            ob_start();
-            require $path.".php";
-            $this->content = ob_get_clean();
+        public function __toString() {
+            $a = $this->load();
+            return $a;
+        }
+
+        protected function load() {
+            if (!empty($this->widgetName) && file_exists(PSDO_ROOT_DIR.$this::path.$this->widgetName.'.php')) {
+                extract($this->data);
+                ob_start();
+                require PSDO_ROOT_DIR.static::path.$this->widgetName.'.php';
+                return ob_get_clean();
+            } else {
+                var_dump($this->widgetName);
+            }
         }
     }
