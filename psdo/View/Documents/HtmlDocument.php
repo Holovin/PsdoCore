@@ -6,10 +6,6 @@
     use PSDO\Config;
 
     class HtmlDocument extends Document {
-        const path = 'Layouts/';
-
-        protected $layoutName = null;
-
         protected $jsLibs = [];
         protected $cssLibs = [];
         protected $metaLines = [];
@@ -31,6 +27,10 @@
             $bodyConfig['class'] = '';
             echo new Widget('Html/Body', $bodyConfig);
 
+            if (PSDO_ENVIRONMENT == 'dev') {
+                echo new Widget('Debug/DebugBot');
+            }
+
             $footConfig['before'] = '';
             $footConfig['after'] = '';
             echo new Widget('Html/Foot', $footConfig);
@@ -40,15 +40,15 @@
             //
         }
 
-        public function loadLayout() {
-            $layoutConfig = null;
-            require $this::path.'Web.php';
-            extract($layoutConfig);
-            echo $test;
+        public function loadLayout($globalParams = array()) {
+            $this->jsLibs = $globalParams['jsLibs'];
+            $this->cssLibs = $globalParams['cssLibs'];
+            $this->metaLines = $globalParams['metaLines'];
+            $this->title = $globalParams['title'];
         }
 
-        protected function setLayout($name) {
-            $this->layoutName = $name;
+        public function addTitle($title) {
+            $this->title .= $title;
         }
 
         public function setTitle($title) {

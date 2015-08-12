@@ -4,17 +4,23 @@
     use PSDO\Core\Singleton;
     
     class UrlData extends Singleton {
-        private $controller;
-        private $action;
-        private $params;
+        private $controller = null;
+        private $action = null;
+        private $params = [];
 
         public function __construct() {
             $this->parse();
         }
 
-        private function parse() {
-            var_dump($_SERVER['REQUEST_URI']);
+        public function __get($name) {
+            if (isset($this->$name)) {
+                return $this->$name;
+            }
 
+            return null;
+        }
+
+        private function parse() {
             $data = preg_split("/[?]/", $_SERVER['REQUEST_URI'], null, PREG_SPLIT_NO_EMPTY);
 
             if (count($data) > 0) {

@@ -2,7 +2,7 @@
     namespace PSDO\Tests\Storage;
 
     use PSDO\Tests\BaseTest;
-    use PSDO\Config;
+    use PSDO\Config\DatabaseConfig;
     use PSDO\Storage\Database as DB;
 
     class Database extends BaseTest  {
@@ -10,6 +10,9 @@
 
         protected function RunTest() {
             $db = DB::getInstance();
+            $dbConfig = DatabaseConfig::getInstance();
+            $db->connect($dbConfig->host, $dbConfig->dbName, $dbConfig->user, $dbConfig->password);
+
             $connection = $db->getConnector();
             $result = $connection->query('SELECT testvalue FROM test WHERE `id` = 1');
 

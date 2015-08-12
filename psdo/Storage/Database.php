@@ -14,18 +14,23 @@
         /** @var \PDO */
         public $connector = null;
 
-        /** @var Config\DatabaseConfig */
-        public $config = null;
+        private $host = null;
+        private $dbName = null;
+        private $user = null;
+        private $password = null;
 
         public function __construct() {
-            $this->connect();
+            //
         }
 
-        protected function connect() {
+        public function connect($host, $dbName, $user, $password) {
+            $this->host = $host;
+            $this->dbName = $dbName;
+            $this->user = $user;
+            $this->password = $password;
+
             try {
-                $this->config = Config\DatabaseConfig::getInstance();
-                $conf_data = $this->config->getAll();
-                $this->connector = new PDO('mysql:host='.$conf_data['host'].';'.'dbname='.$conf_data['db'], strval($conf_data['login']), strval($conf_data['password']));
+                $this->connector = new PDO('mysql:host='.$host.';'.'dbname='.$dbName, strval($user), strval($password));
             } catch (Exception $e) {
                 // TODO: [DB] log errors
                 echo "ERR: " . $e->getMessage() . "<br/>";

@@ -10,6 +10,10 @@
     use PSDO\View\Widget;
     use PSDO\View\Documents\HtmlDocument;
 
+    Application::getInstance();
+
+    die();
+
     $doc = HtmlDocument::getInstance();
 
     $doc->writeRaw('Request data:<br />');

@@ -3,12 +3,9 @@
 
     use PSDO\Storage\Database;
 
-    class BaseController {
-        // data
-        public $db = null;
-        public $model = null;
+    abstract class BaseController {
+        protected $db = null;
 
-        // constr
         function __construct() {
             $this->db = Database::getInstance();
         }

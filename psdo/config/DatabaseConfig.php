@@ -7,9 +7,9 @@
 
         protected function load() {
             $this->data['host']             = 'localhost';
-            $this->data['login']            = 'psdo3ez';
+            $this->data['user']            = 'psdo3ez';
             $this->data['password']         = 'psdo3ez';
-            $this->data['db']               = 'psdo';
+            $this->data['dbName']               = 'psdo';
         }
 
         public function  __construct() {
