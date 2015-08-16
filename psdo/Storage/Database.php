@@ -19,10 +19,6 @@
         private $user = null;
         private $password = null;
 
-        public function __construct() {
-            //
-        }
-
         public function connect($host, $dbName, $user, $password) {
             $this->host = $host;
             $this->dbName = $dbName;

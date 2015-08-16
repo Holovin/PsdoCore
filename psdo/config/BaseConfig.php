@@ -3,7 +3,7 @@
 
     use PSDO\Core\Singleton;
 
-    abstract class AbstractConfig extends Singleton {
+    abstract class BaseConfig extends Singleton {
         const configStoreName = 'Abstract';
 
         protected $data = null;
@@ -27,7 +27,7 @@
             apcu_delete("PSDO_CONFIGS_".$this::configStoreName);
         }
 
-        protected function __construct() {
+        protected function construct() {
             if (!$this->tryLoadCache()) {
                 $this->load();
                 apcu_store("PSDO_CONFIGS_".$this::configStoreName, $this->data);

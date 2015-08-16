@@ -8,7 +8,7 @@
         private $action = null;
         private $params = [];
 
-        public function __construct() {
+        protected function construct() {
             $this->parse();
         }
 
@@ -26,8 +26,8 @@
             if (count($data) > 0) {
                 $temp = preg_split("/[\/]/", $data[0], null, PREG_SPLIT_NO_EMPTY);
 
-                $this->controller = !empty($temp[0]) ? $temp[0] : null;
-                $this->action = !empty($temp[1]) ? $temp[1] : null;
+                $this->controller = !empty($temp[0]) ? strtolower($temp[0]) : null;
+                $this->action = !empty($temp[1]) ? strtolower($temp[1]) : null;
             }
 
             if (count($data) > 1) {

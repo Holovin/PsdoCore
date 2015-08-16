@@ -1,31 +1,38 @@
 <?php
     namespace PSDO\Core;
 
+    use PSDO\Controller\BaseController;
+    use PSDO\Controller\MainController;
+    use PSDO\Controller\WebController;
     use PSDO\Core\UrlData;
     use PSDO\Config\DatabaseConfig;
     use PSDO\Storage\Database;
     use PSDO\View\Documents\HtmlDocument;
+    use PSDO\Core\AppLog;
 
     class Application extends Singleton {
-        /** @var HtmlDocument */
-        private $document = null;
-
         /** @var Database */
         private $db = null;
 
-        public function __construct() {
+        /** @var AppLog */
+        public $log = null;
+
+        protected function construct() {
+            // core
+            $this->log = new AppLog();
+
             // view
             $this->document = HtmlDocument::getInstance();
-
             $this->document->loadLayout([
-                "cssLibs" => array(),
-                "jsLibs" => array(),
-                "metaLines" => array(),
-                "title" => "PSDO v3!"
+                                            "cssLibs" => array(),
+                                            "jsLibs" => array(),
+                                            "metaLines" => array(),
+                                            "title" => "PSDO v3!"
                                         ]);
 
             // db
             $dbConfig = DatabaseConfig::getInstance();
+
             $this->db = Database::getInstance();
             $this->db->connect($dbConfig->host, $dbConfig->dbName, $dbConfig->user, $dbConfig->password);
 
@@ -34,9 +41,21 @@
             $this->execute($url->controller, $url->action, $url->params);
         }
 
-        protected function execute($controller = null, $action = null, $params = []) {
-            echo $controller." - ".$action." - ".json_encode($params);
-            // TODO: сделать контроллера запуск
-            // и сами контроллеры!
+        protected function execute($controllerName = null, $actionName = null, $params = []) {
+            $controller = null;
+
+            switch ($controllerName) {
+                case "test": {
+                    $controller = new BaseController();
+                    break;
+                }
+
+                default: {
+                    $controller = new WebController();
+                    break;
+                }
+            }
+
+            $controller->runAction($actionName, $params);
         }
     }

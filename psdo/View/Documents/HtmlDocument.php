@@ -27,17 +27,9 @@
             $bodyConfig['class'] = '';
             echo new Widget('Html/Body', $bodyConfig);
 
-            if (PSDO_ENVIRONMENT == 'dev') {
-                echo new Widget('Debug/DebugBot');
-            }
-
             $footConfig['before'] = '';
             $footConfig['after'] = '';
             echo new Widget('Html/Foot', $footConfig);
-        }
-
-        public function __construct() {
-            //
         }
 
         public function loadLayout($globalParams = array()) {

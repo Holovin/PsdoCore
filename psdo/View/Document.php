@@ -6,9 +6,6 @@
     abstract class Document extends Singleton {
         protected $bodyContent = null;
 
-        public function __construct() {
-        }
-
         public function writeRaw($data) {
         }
 

@@ -1,8 +1,7 @@
 <?php
     namespace PSDO\Config;
 
-
-    class DatabaseConfig extends AbstractConfig {
+    class DatabaseConfig extends BaseConfig {
         const configStoreName = 'Database';
 
         protected function load() {
@@ -10,10 +9,5 @@
             $this->data['user']            = 'psdo3ez';
             $this->data['password']         = 'psdo3ez';
             $this->data['dbName']               = 'psdo';
-        }
-
-        public function  __construct() {
-            parent::__construct();
-            $this->load();
         }
     }
