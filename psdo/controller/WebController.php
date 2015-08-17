@@ -18,53 +18,54 @@
         /** @var HtmlDocument */
         protected $document;
 
+        /** @var array Routes map, ex. "action-super-2015" => "indexAction" */
+        protected $routes = ["zhum" => "removeAction"];
 
         public function __construct() {
             parent::__construct();
 
-            $this->document = HtmlDocument::getInstance();
+            //$this->session = new Session();
+            //$this->session->startOrResume();
         }
 
-        protected function remove() {
-            $s = Session::getInstance();
+        protected function redirect($urlTo, $code = 301) {
+            header("Location: ".$urlTo, true, $code);
+        }
+
+        protected function removeAction() {
             //$s->startOrResume(["userId" => "222"]);
             //$s->stop();
+            $this->redirect("http://vk.com");
         }
 
-        protected function index($params = []) {
-            $s = Session::getInstance();
-            //$s->startOrResume(["userId" => "222"]);
-            //$temp = new UserModel();
-            //$temp
+        protected function indexAction($params = []) {
+            $this->document->writeRaw("index ".json_encode($params));
+        }
 
-            //echo "sid: ".$s->sid."<br />";
-            //echo "userid (fake): ".$s->userId;
+        public function run($action, $params = []) {
+            $this->document = HtmlDocument::getInstance();
 
+            if (isset($this->routes['$action'])) {
+                // check map 1st
+                $this->{$this->routes[$action]}($params);
+            } else if (method_exists($this, $action."Action")) {
+                // run directly
+                $this->{$action."Action"}($params);
+            } else {
+                // run default
+                $this->indexAction($params);
+            }
 
-
+            // DEBUG //
             $a = new Widget("Debug/DebugBot", [
                 "controller" => get_called_class(),
-                "action" => __FUNCTION__,
+                "action" => $action,
                 "params" => json_encode($params),
-                "sid" => $s->sid,
+                "sid" => "а ты сессии сделай сначала",//$this->session->sid,
                 "log" => Application::getInstance()->log->getAsText(),
             ]);
 
             $this->document->writeRaw($a);
             $this->document->render();
-        }
-
-        public function runAction($action, $params = []) {
-            switch ($action) {
-                case "remove": {
-                    $this->remove();
-                break;
-                }
-
-                default: {
-                    $this->index($params);
-                break;
-                }
-            }
         }
     }

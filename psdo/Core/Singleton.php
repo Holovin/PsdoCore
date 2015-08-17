@@ -7,7 +7,6 @@
             static $instance = null;
 
             if ($instance === null) {
-                echo "New: ".get_called_class()."<br />";
                 $instance = new static();
                 $instance->construct();
             }

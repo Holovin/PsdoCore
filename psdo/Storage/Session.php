@@ -5,10 +5,17 @@
     use PSDO\Storage\Database;
     use PSDO\Core\Singleton;
     
-    class Session extends Singleton {
+    class Session {
         /** @var \PDO */
         protected $db = null;
 
+        /** @var int
+         *  0 - not initialized
+         * -1 - try resume, but failed
+         *  1 - vk auth ok
+         *
+         **/
+        public $type = 0;
         public $sid = null;
         public $userId = null;
 
@@ -16,7 +23,7 @@
         const storageName = "sid";
         const sidSize = 32;
 
-        protected function construct() {
+        public function __construct() {
             $this->db = Database::getInstance()->getConnector();
         }
 
@@ -66,6 +73,7 @@
         public function start($data = array()) {
             if (empty($data)) {
                 // TODO: error!
+                return;
             }
 
             $this->userId = $data["userId"];

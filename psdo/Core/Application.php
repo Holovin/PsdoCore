@@ -1,9 +1,7 @@
 <?php
     namespace PSDO\Core;
 
-    use PSDO\Controller\BaseController;
-    use PSDO\Controller\MainController;
-    use PSDO\Controller\WebController;
+    use PSDO\Controller;
     use PSDO\Core\UrlData;
     use PSDO\Config\DatabaseConfig;
     use PSDO\Storage\Database;
@@ -45,17 +43,17 @@
             $controller = null;
 
             switch ($controllerName) {
-                case "test": {
-                    $controller = new BaseController();
+                case "login": {
+                    $controller = new Controller\Web\AuthController();
                     break;
                 }
 
                 default: {
-                    $controller = new WebController();
+                    $controller = new Controller\WebController();
                     break;
                 }
             }
 
-            $controller->runAction($actionName, $params);
+            $controller->run($actionName, $params);
         }
     }
