@@ -13,6 +13,12 @@
         }
 
         public function getAsText() {
-            return json_encode($this->data);
+            $output = "";
+
+            foreach ($this->data as $key => $value) {
+                $output .= $key . " :: " . $value . "\n";
+            }
+
+            return $output;
         }
     }

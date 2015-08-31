@@ -2,7 +2,8 @@
     namespace PSDO\Controller;
 
     use PSDO\Core\Application;
-    use PSDO\Storage\Database;
+    use PSDO\Core\UrlData;
+    use PSDO\Core\UrlGoto;
     use PSDO\Storage\Session;
     use PSDO\View\Documents\HtmlDocument;
     use PSDO\Model\UserModel;
@@ -18,28 +19,35 @@
         /** @var HtmlDocument */
         protected $document;
 
+        /** @var array Routes (with regEx process) map */
+        protected $routesEx = [];
+
         /** @var array Routes map, ex. "action-super-2015" => "indexAction" */
-        protected $routes = ["zhum" => "removeAction"];
+        protected $routes = [];
 
-        public function __construct() {
-            parent::__construct();
-
-            //$this->session = new Session();
-            //$this->session->startOrResume();
+        public function __construct($data = []) {
+            parent::__construct($data);
+            $this->session = new Session();
+            $this->session->startOrResume([
+                "userAgent" => $_SERVER['HTTP_USER_AGENT'],
+                "ip" => $_SERVER["REMOTE_ADDR"],
+                "startTime" => time(),
+                "expires" => "600"
+            ]);
         }
 
         protected function redirect($urlTo, $code = 301) {
             header("Location: ".$urlTo, true, $code);
         }
 
-        protected function removeAction() {
-            //$s->startOrResume(["userId" => "222"]);
-            //$s->stop();
-            $this->redirect("http://vk.com");
+        protected function indexAction($params = []) {
+            Application::getInstance()->log->add(UrlGoto::get("auth", "123", ["test" => "1", "test2" => "2"]));
+
+            $this->document->writeRaw('Its main page!<br /><a href="/auth/vkLogin">Login vk</a>');
         }
 
-        protected function indexAction($params = []) {
-            $this->document->writeRaw("index ".json_encode($params));
+        protected function notFoundAction($params = []) {
+            $this->document->writeRaw("404!");
         }
 
         public function run($action, $params = []) {
@@ -51,21 +59,26 @@
             } else if (method_exists($this, $action."Action")) {
                 // run directly
                 $this->{$action."Action"}($params);
+            } else if ($action) {
+                // run default 404
+                $this->notFoundAction($params);
             } else {
-                // run default
                 $this->indexAction($params);
             }
 
             // DEBUG //
             $a = new Widget("Debug/DebugBot", [
-                "controller" => get_called_class(),
+                "controller" => UrlData::getInstance()->controller,
+                "controllerReal" => get_called_class(),
                 "action" => $action,
                 "params" => json_encode($params),
-                "sid" => "а ты сессии сделай сначала",//$this->session->sid,
+                "sid" => $this->session->sid,
+                "id" => "n/a [не сделано же]",
                 "log" => Application::getInstance()->log->getAsText(),
             ]);
-
             $this->document->writeRaw($a);
+            // END DEBUG //
+
             $this->document->render();
         }
     }

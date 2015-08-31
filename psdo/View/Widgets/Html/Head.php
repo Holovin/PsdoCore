@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <? foreach ($meta as $key): ?>
     <meta <?=$key?>>
-    <? endforeach ?>
+    <? endforeach; ?>
     <? foreach ($js as $key): ?>
     <script type="text/javascript" src="<?=$key?>"></script>
     <? endforeach ?>

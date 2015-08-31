@@ -7,7 +7,7 @@
         /** @var Database */
         protected $db = null;
 
-        public function __construct() {
+        public function __construct($data = []) {
             $this->db = Database::getInstance();
         }
     }

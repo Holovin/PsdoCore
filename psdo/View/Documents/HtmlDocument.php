@@ -8,7 +8,7 @@
     class HtmlDocument extends Document {
         protected $jsLibs = [];
         protected $cssLibs = [];
-        protected $metaLines = [];
+        protected $metaLines = ["1" => "2"];
         protected $title = null;
 
         public function writeRaw($data) {

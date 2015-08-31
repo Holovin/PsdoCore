@@ -28,6 +28,9 @@
         }
 
         protected function construct() {
+            $this->removeCache();
+            $this->load();
+
             if (!$this->tryLoadCache()) {
                 $this->load();
                 apcu_store("PSDO_CONFIGS_".$this::configStoreName, $this->data);

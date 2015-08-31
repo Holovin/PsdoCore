@@ -26,8 +26,9 @@
             if (count($data) > 0) {
                 $temp = preg_split("/[\/]/", $data[0], null, PREG_SPLIT_NO_EMPTY);
 
-                $this->controller = !empty($temp[0]) ? strtolower($temp[0]) : null;
-                $this->action = !empty($temp[1]) ? strtolower($temp[1]) : null;
+                // TODO: check/filter input, possible run other methods?
+                $this->controller = !empty($temp[0]) ? strtolower(substr($temp[0], 0, 64)) : null;
+                $this->action = !empty($temp[1]) ? strtolower(substr($temp[1], 0, 64)) : null;
             }
 
             if (count($data) > 1) {
