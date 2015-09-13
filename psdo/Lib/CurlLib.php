@@ -1,7 +1,6 @@
 <?php
     namespace PSDO\Lib;
-    
-    
+
     class CurlLib {
         const userAgent = "Mozilla/5.0 (PSDO bot)";
 

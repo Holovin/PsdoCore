@@ -99,6 +99,7 @@
         public function startOrResume($data = []) {
             // sid exist and valid
             if ($this->readSidFromUser() && $this->loadData($this->data["sid"])) {
+                // TODO: validate time
                 return true;
             }
 
@@ -200,5 +201,14 @@
             Application::getInstance()->log->add("Set state: ".$state);
             $this->data["state"] = $state;
             $this->saveData($this->data);
+        }
+
+        // data
+        public function getData($key) {
+            if (array_key_exists($key, $this->data)) {
+                return $this->data[$key];
+            }
+
+            return false;
         }
     }

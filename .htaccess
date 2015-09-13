@@ -14,16 +14,15 @@ RewriteEngine on
 
 # Why not :D
 # localhost?
-RewriteCond %{HTTP_REFERER} !^$
 # www
-RewriteCond %{HTTP_REFERER} !^http://(www\.)?psdo\.by/.*$ [NC]
-RewriteRule .+\.(gif|jpg|png|js|css)$ - [L,R=404]
+#RewriteCond %{HTTP_REFERER} !^localhost$
+#RewriteCond %{HTTP_REFERER} !^http://(www\.)?psdo\.by/.*$ [NC]
+#    RewriteRule .+\.(gif|jpg|png|js|css)$ - [L,R=404]
 
 # files
-RewriteCond %{REQUEST_FILENAME} !-f
 # dirs
-RewriteCond %{REQUEST_FILENAME} !-d
 # symlinks
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
-
-RewriteRule ^(www.)?(.+)$ index.php?$2 [QSA,L]
+    RewriteRule ^(www.)?(.+)$ index.php?$2 [QSA,L]

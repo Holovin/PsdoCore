@@ -26,20 +26,8 @@
             "/^id(\\d+)$/" => ["PSDO\\Controller\\Web\\AuthController", "zhumarin"]
         ];
 
-        /** @var \PSDO\View\Documents\HtmlDocument */
-        protected $document = null;
-
         protected function construct() {
             $this->log = new AppLog();
-
-            // view
-            $this->document = HtmlDocument::getInstance();
-            $this->document->loadLayout([
-                                            "cssLibs" => array(),
-                                            "jsLibs" => array(),
-                                            "metaLines" => array(),
-                                            "title" => "PSDO v3!"
-                                        ]);
 
             // db
             $dbConfig = DatabaseConfig::getInstance();

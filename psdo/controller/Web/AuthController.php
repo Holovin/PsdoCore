@@ -6,6 +6,7 @@
     use PSDO\Enums\Session\SessionSocial;
     use PSDO\Lib\VkLib;
     use PSDO\Controller\WebController;
+    use PSDO\Model\UserModel;
 
     class AuthController extends WebController {
         protected $routes = [
@@ -25,14 +26,15 @@
         protected function vkCallbackAction($params = []) {
             $vkLib = new VkLib();
 
+            $this->user = new UserModel();
+
+
             if (!empty($params["code"])) {
                 $vkLib->getTokenFromAuthCode($params["code"]);
 
                 if (!$vkLib->getLastError()) {
                     $data["sid"] = null;
                     $data["state"] = SessionState::Auth;
-
-                    $data["userId"] = 666; // TODO!
 
                     $data["socialType"] = SessionSocial::Vk;
                     $data["socialId"] = $vkLib->user_id;
@@ -44,13 +46,26 @@
                     $data["startTime"] = date('Y-m-d h:i:s', time());
                     $data["expires"] = $vkLib->expires_in;
 
+                    $data["userId"] = 666;
+
+                    if ($this->user->load($data["socialType"], $data["socialId"])) {
+                        Application::getInstance()->log->add("FOUND USER!");
+                    } else {
+                        Application::getInstance()->log->add("NOT FOUND USER!");
+                        $this->register($params);
+                    }
+
                     $this->session->stop();
                     return $this->session->start($data);
                 }
             }
 
-            $this->session->setState(SessionState::Guest);
             $this->redirect("http://localhost/?emptyCode");
+            return "";
+        }
+
+        protected function register($params = []) {
+            //$this->document->writeRaw("Введите свои данные:");
         }
 
         protected function vkLoginAction($params = []) {
@@ -63,11 +78,12 @@
                 // TODO: redirect
                 return true;
             }
+            return true;
         }
 
         protected function logoutAction($params = []) {
             if ($this->session->getState() != SessionState::Guest && $this->session->stop()) {
-                $this->document->writeRaw("Stopped ok!");
+                //$this->document->writeRaw("Stopped ok!");
             }
         }
     }

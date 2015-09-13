@@ -8,6 +8,6 @@
         protected $db = null;
 
         public function __construct() {
-            $db = Database::getInstance()->getConnector();
+            $this->db = Database::getInstance()->getConnector();
         }
     }

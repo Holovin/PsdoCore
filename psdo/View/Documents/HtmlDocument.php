@@ -6,60 +6,43 @@
     use PSDO\Config;
 
     class HtmlDocument extends Document {
-        protected $jsLibs = [];
-        protected $cssLibs = [];
-        protected $metaLines = ["1" => "2"];
         protected $title = null;
+        protected $bodyContent = [];
+        protected $out = [
+            'html_title' => 'psdo!',
+            'html_debug' => '',
+            'html_head_last' => '',
+            'html_content' => '',
+            'html_last' => '<!-- psdo! -->',
+        ];
+
+        public function write($layout, $position, $widgetName, $widgetData) {
+            $this->bodyContent[$layout][$position] = new Widget($widgetName, $widgetData);
+        }
 
         public function writeRaw($data) {
-            $this->bodyContent .= $data;
+            if (!array_key_exists('Blank', $this->bodyContent)) {
+                $this->bodyContent['Blank']['data'] = '';
+            }
+
+            $this->bodyContent['Blank']['data'] .= $data;
+        }
+
+        public function appendWidgetRaw($widgetName, $widgetData) {
+            $this->out['html_debug'] = new Widget($widgetName, $widgetData);
         }
 
         public function render() {
-            $headConfig['title'] = $this->title;
-            $headConfig['js'] = $this->jsLibs;
-            $headConfig['css'] = $this->cssLibs;
-            $headConfig['meta'] = $this->metaLines;
-            $headConfig['after'] = '';
-            echo new Widget('Html/Head', $headConfig);
-
-            $bodyConfig['content'] = $this->bodyContent;
-            $bodyConfig['class'] = '';
-            echo new Widget('Html/Body', $bodyConfig);
-
-            $footConfig['before'] = '';
-            $footConfig['after'] = '';
-            echo new Widget('Html/Foot', $footConfig);
-        }
-
-        public function loadLayout($globalParams = array()) {
-            $this->jsLibs = $globalParams['jsLibs'];
-            $this->cssLibs = $globalParams['cssLibs'];
-            $this->metaLines = $globalParams['metaLines'];
-            $this->title = $globalParams['title'];
-        }
-
-        public function addTitle($title) {
-            $this->title .= $title;
-        }
-
-        public function setTitle($title) {
-            $this->title = $title;
-        }
-
-        public function addJs($value) {
-            $this->addLib("jsLibs", $value);
-        }
-
-        public function addCss($value) {
-            $this->addLib("cssLibs", $value);
-        }
-
-        protected function addLib($storeName, $value) {
-            if (!in_array($value, $this->$storeName)) {
-                //$this->$storeName[] = $value;
-                return;
+            foreach ($this->bodyContent as $layout => $data) {
+                $this->out['html_content'] .= new Widget('Layouts/'.$layout, $data);
             }
-            // TODO
+
+            echo new Widget('Documents/BaseHtml', $this->out);
+        }
+
+        public function setData($key, $value) {
+            if (array_key_exists($key, $value)) {
+                $this->out[$key] = $value;
+            }
         }
     }

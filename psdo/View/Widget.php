@@ -4,12 +4,11 @@
     class Widget {
         const path = 'View/Widgets/';
 
-        protected $widgetName = 'Blank';
-        protected $content = null;
+        protected $selfName = 'Blank';
         protected $data = [];
 
         public function __construct($widgetName = 'Blank', $data = array()) {
-            $this->widgetName = $widgetName;
+            $this->selfName = $widgetName;
             $this->data = $data;
         }
 
@@ -19,13 +18,15 @@
         }
 
         protected function load() {
-            if (!empty($this->widgetName) && file_exists(PSDO_ROOT_DIR.$this::path.$this->widgetName.'.php')) {
+            if (!empty($this->selfName) && file_exists(PSDO_ROOT_DIR.$this::path.$this->selfName.'.php')) {
                 extract($this->data);
                 ob_start();
-                require PSDO_ROOT_DIR.static::path.$this->widgetName.'.php';
+                require PSDO_ROOT_DIR.static::path.$this->selfName.'.php';
                 return ob_get_clean();
             } else {
-                var_dump($this->widgetName);
+                // TODO: fix!
+                var_dump($this->selfName);
             }
+            return "";
         }
     }

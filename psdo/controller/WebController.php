@@ -4,6 +4,7 @@
     use PSDO\Core\Application;
     use PSDO\Core\UrlData;
     use PSDO\Core\UrlGoto;
+    use PSDO\Enums\Session\SessionState;
     use PSDO\Storage\Session;
     use PSDO\View\Documents\HtmlDocument;
     use PSDO\Model\UserModel;
@@ -27,6 +28,9 @@
 
         public function __construct($data = []) {
             parent::__construct($data);
+
+            $this->document = new HtmlDocument();
+
             $this->session = new Session();
             $this->session->startOrResume([
                 "userAgent" => $_SERVER['HTTP_USER_AGENT'],
@@ -41,18 +45,16 @@
         }
 
         protected function indexAction($params = []) {
-            Application::getInstance()->log->add(UrlGoto::get("auth", "123", ["test" => "1", "test2" => "2"]));
-
-            $this->document->writeRaw('Its main page!<br /><a href="/auth/vkLogin">Login vk</a>');
+            //$this->document;
         }
 
-        protected function notFoundAction($params = []) {
+        protected function notFound($params = []) {
+            $a = new Widget("Debug/DebugBot", $params);
+
             $this->document->writeRaw("404!");
         }
 
         public function run($action, $params = []) {
-            $this->document = HtmlDocument::getInstance();
-
             if (isset($this->routes['$action'])) {
                 // check map 1st
                 $this->{$this->routes[$action]}($params);
@@ -61,23 +63,29 @@
                 $this->{$action."Action"}($params);
             } else if ($action) {
                 // run default 404
-                $this->notFoundAction($params);
+                $this->notFound($params);
             } else {
                 $this->indexAction($params);
             }
 
+            if ($this->session->getData("state") != SessionState::Auth) {
+                $link = UrlGoto::get("auth", "vkLogin");
+                $this->document->writeRaw('Не залогирован<br /><a href="' . $link . '">Login vk</a>');
+            } else {
+                $link = UrlGoto::get("auth", "logout");
+                $this->document->writeRaw('Залогирован<br /><a href="' . $link . '">Log out</a>');
+            }
+
             // DEBUG //
-            $a = new Widget("Debug/DebugBot", [
+            $this->document->write("Debug", 'debug_data', "Debug/DebugBot", [
                 "controller" => UrlData::getInstance()->controller,
                 "controllerReal" => get_called_class(),
                 "action" => $action,
                 "params" => json_encode($params),
-                "sid" => $this->session->sid,
-                "id" => "n/a [не сделано же]",
+                "sid" => $this->session->getData("sid"),
+                "id" => $this->session->getData("id"),
                 "log" => Application::getInstance()->log->getAsText(),
             ]);
-            $this->document->writeRaw($a);
-            // END DEBUG //
 
             $this->document->render();
         }

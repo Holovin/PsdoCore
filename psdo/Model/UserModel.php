@@ -3,37 +3,46 @@
 
     use \PDO;
 
-    class UserModel extends BaseModel {
-        const tableName = "Users";
+    use PSDO\Enums\Enum;
+    use PSDO\Core\Application;
 
+    class UserModel extends BaseModel {
+        const tableName = "users";
+
+        /** @var int PsdoID */
         private $id = null;
-        private $authType = null;
-        private $userId = null;
+
+        private $socialType = null;
+
+        /** @var int Socal network user id */
+        private $socialId = null;
+
+        /** @var string Params part for autologin without social  */
+        private $authFastKey = null;
 
         public function __construct() {
             parent::__construct();
         }
 
-        public function loadUserById($id) {
-            if (empty($id)) {
-                return false;
-            }
+        public function load($socialType, $socialId) {
+            $this->socialType = $socialType;
+            $this->socialId = $socialId;
 
-            $this->id = $id;
+            $query = $this->db->prepare("SELECT `id` FROM `".$this::tableName."` WHERE `socal_type` = :socT AND `social_id` = :socId");
+            $query->bindParam("socT", $socialType, PDO::PARAM_INT);
+            $query->bindParam("socId", $socialId, PDO::PARAM_INT);
 
-            // db
-            $query = $this->db->prepare("SELECT `vk_id` FROM `".$this::tableName."` WHERE `id` = :id");
-            $query->bindParam("id", $id, PDO::PARAM_INT);
             if (!$query->execute()) {
+                Application::getInstance()->log->add("[WARN] А вот и ошибки подъехали! UserModel db fault");
                 return false;
             }
 
-            // parse
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-            $this->userId = $result->vk_id;
+            if ($query->rowCount()) {
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                $this->id = $result->id;
+                return true;
+            }
 
-            return true;
+            return false;
         }
-
-
     }
