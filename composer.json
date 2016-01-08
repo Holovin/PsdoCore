@@ -1,0 +1,28 @@
+{
+  "name": "psdo/psdo3",
+  "description": "PSDO v3 framework",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Alex Holovin",
+      "email": "dvjmixxxer@gmail.com",
+      "role": "Founder and project lead"
+    },
+    {
+      "name": "Kiril Zhumarin",
+      "role": "Code review"
+    }
+  ],
+  "replace": {
+    "psdo/psdo3": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "PSDO\\": "PSDO/"
+    }
+  },
+  "require": {
+    "php": ">=7.0.0",
+    "ext-apcu": ">=5.1.2"
+  }
+}

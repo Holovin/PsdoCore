@@ -1,15 +1,10 @@
 <?php
     namespace PSDO\Core;
 
-    require "AutoLoader.php";
+    require $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
 
     // settings
     date_default_timezone_set('Europe/Minsk');
-
-    // auto loader
-    $loader = new AutoLoader();
-    $loader->register();
-    $loader->addNamespace('PSDO', $_SERVER['DOCUMENT_ROOT'].'PSDO');
 
     // const
     define('PSDO_ENVIRONMENT', 'dev');
