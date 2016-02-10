@@ -8,5 +8,3 @@
     use PSDO\Core\Application;
 
     Application::getInstance();
-
-    var_dump(phpinfo());

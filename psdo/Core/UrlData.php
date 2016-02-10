@@ -4,6 +4,7 @@
     use PSDO\Core\Singleton;
     
     class UrlData extends Singleton {
+        private $sub = null;
         private $controller = null;
         private $action = null;
         private $params = [];
@@ -21,6 +22,8 @@
         }
 
         private function parse() {
+            $this->sub = explode(".", $_SERVER['SERVER_NAME']);
+
             $data = preg_split("/[?]/", $_SERVER['REQUEST_URI'], null, PREG_SPLIT_NO_EMPTY);
 
             if (count($data) > 0) {

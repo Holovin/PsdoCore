@@ -1,7 +1,7 @@
 <?php
     namespace PSDO\Core;
 
-    class UrlGoto {
+    class UrlGen {
         const Http = "http://";
 
         public static function getHostName() {

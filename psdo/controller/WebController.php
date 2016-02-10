@@ -3,7 +3,7 @@
 
     use PSDO\Core\Application;
     use PSDO\Core\UrlData;
-    use PSDO\Core\UrlGoto;
+    use PSDO\Core\UrlGen;
     use PSDO\Enums\Session\SessionState;
     use PSDO\Storage\Session;
     use PSDO\View\Documents\HtmlDocument;
@@ -69,15 +69,16 @@
             }
 
             if ($this->session->getData("state") != SessionState::Auth) {
-                $link = UrlGoto::get("auth", "vkLogin");
+                $link = UrlGen::get("auth", "vkLogin");
                 $this->document->writeRaw('Не залогирован<br /><a href="' . $link . '">Login vk</a>');
             } else {
-                $link = UrlGoto::get("auth", "logout");
+                $link = UrlGen::get("auth", "logout");
                 $this->document->writeRaw('Залогирован<br /><a href="' . $link . '">Log out</a>');
             }
 
             // DEBUG //
             $this->document->write("Debug", 'debug_data', "Debug/DebugBot", [
+                "sub" => UrlData::getInstance()->sub,
                 "controller" => UrlData::getInstance()->controller,
                 "controllerReal" => get_called_class(),
                 "action" => $action,

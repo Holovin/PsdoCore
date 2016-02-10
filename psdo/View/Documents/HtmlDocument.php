@@ -37,6 +37,8 @@
                 $this->out['html_content'] .= new Widget('Layouts/'.$layout, $data);
             }
 
+            // TODO: maybe add here layout support?
+            // Can replace str /BashHtml/ to another!
             echo new Widget('Documents/BaseHtml', $this->out);
         }
 
