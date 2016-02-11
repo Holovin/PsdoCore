@@ -1,5 +1,5 @@
 <?php
-    namespace PSDO\View\Documents;
+    namespace PSDO\View\Document;
 
     use PSDO\View\Document;
     use PSDO\View\Widget;
@@ -34,12 +34,12 @@
 
         public function render() {
             foreach ($this->bodyContent as $layout => $data) {
-                $this->out['html_content'] .= new Widget('Layouts/'.$layout, $data);
+                $this->out['html_content'] .= new Widget('Layout/'.$layout, $data);
             }
 
             // TODO: maybe add here layout support?
             // Can replace str /BashHtml/ to another!
-            echo new Widget('Documents/BaseHtml', $this->out);
+            echo new Widget('Document/BaseHtml', $this->out);
         }
 
         public function setData($key, $value) {

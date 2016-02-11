@@ -1,5 +1,5 @@
 <?php
-    namespace PSDO\Enums;
+    namespace PSDO\Enum;
     
     
     abstract class Enum {

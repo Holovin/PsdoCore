@@ -1,7 +1,7 @@
 <?php
-    namespace PSDO\Enums\Session;
+    namespace PSDO\Enum\Session;
 
-    use PSDO\Enums\Enum;
+    use PSDO\Enum\Enum;
 
     class SessionState extends Enum {
         const NotInit = 0;

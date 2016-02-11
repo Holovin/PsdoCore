@@ -2,7 +2,7 @@
     namespace PSDO\View;
 
     class Widget {
-        const path = 'View/Widgets/';
+        const path = 'View/Widget/';
 
         protected $selfName = 'Blank';
         protected $data = [];

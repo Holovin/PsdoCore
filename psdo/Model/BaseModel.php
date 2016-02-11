@@ -1,13 +1,33 @@
 <?php
     namespace PSDO\Model;
 
-    use PSDO\Storage\Database;
+    use PSDO\Core\Application;
 
     abstract class BaseModel {
-        /** @var \PDO */
-        protected $db = null;
-
         public function __construct() {
-            $this->db = Database::getInstance()->getConnector();
+
+        }
+
+        public function __set($key, $value) {
+            $this->{$key} = $value;
+        }
+
+        public function fillData($data) {
+            if (array_values($data) === $data) {
+                echo "err";
+                Application::getInstance()->log->add("[FATAL] Wrong array type");
+                return false;
+            }
+
+            foreach($data as $key => $value) {
+                if (!property_exists($this, $key)) {
+                    Application::getInstance()->log->add("[FATAL] Trying writing to this->".$key);
+                    return false;
+                }
+
+                $this->{$key} = $value;
+            }
+
+            return true;
         }
     }

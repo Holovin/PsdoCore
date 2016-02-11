@@ -3,10 +3,10 @@
 
     use PDO;
     use PSDO\Core\Application;
-    use PSDO\Enums\Session\SessionSocial;
+    use PSDO\Enum\Session\SessionSocial;
     use PSDO\Storage\Database;
     use PSDO\Core\Singleton;
-    use PSDO\Enums\Session\SessionState;
+    use PSDO\Enum\Session\SessionState;
     
     class Session {
         /** @var \PDO */

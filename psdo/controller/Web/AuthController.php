@@ -2,8 +2,8 @@
     namespace PSDO\Controller\Web;
 
     use PSDO\Core\Application;
-    use PSDO\Enums\Session\SessionState;
-    use PSDO\Enums\Session\SessionSocial;
+    use PSDO\Enum\Session\SessionState;
+    use PSDO\Enum\Session\SessionSocial;
     use PSDO\Lib\VkLib;
     use PSDO\Controller\WebController;
     use PSDO\Model\UserModel;

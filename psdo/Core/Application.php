@@ -5,7 +5,7 @@
     use PSDO\Core\UrlData;
     use PSDO\Config\DatabaseConfig;
     use PSDO\Storage\Database;
-    use PSDO\View\Documents\HtmlDocument;
+    use PSDO\View\Document\HtmlDocument;
     use PSDO\Core\AppLog;
 
     class Application extends Singleton {

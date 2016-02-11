@@ -4,9 +4,9 @@
     use PSDO\Core\Application;
     use PSDO\Core\UrlData;
     use PSDO\Core\UrlGen;
-    use PSDO\Enums\Session\SessionState;
+    use PSDO\Enum\Session\SessionState;
     use PSDO\Storage\Session;
-    use PSDO\View\Documents\HtmlDocument;
+    use PSDO\View\Document\HtmlDocument;
     use PSDO\Model\UserModel;
     use PSDO\View\Widget;
 
